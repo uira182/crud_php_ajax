@@ -3,10 +3,12 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AjaxPHP</title>
     <link rel="stylesheet" type="text/css" href="./assets/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="./assets/fontawesome/css/all.min.css" />
     <script src="./assets/js/jquery/jquery.min.js"></script>
+    <script src="./assets/js/jquery/jquery.mask.min.js"></script>
 </head>
 
 <body>
