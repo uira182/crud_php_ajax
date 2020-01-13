@@ -12,35 +12,43 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.php">Inicio</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <nav class="container">
+            <a class="navbar-brand" href="index.php">Inicio</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navb">
-            <ul class="navbar-nav mr-auto">
-                <!-- Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Cadastro
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="?pg=cadCli">Cliente</a>
-                        <a class="dropdown-item" href="#">Produto</a>
-                        <a class="dropdown-item" href="#">Categoria</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0" method="get" name="f_busca">
-                <input id="txtNome" class="form-control mr-sm-2" type="text" name="txtNome" placeholder="Procurar">
-                <button class="btn btn-success my-2 my-sm-0" type="button" name="btnPesquisar">
-                    <i class="fa fa-search"></i>
-                </button>
-            </form>
-        </div>
+            <div class="collapse navbar-collapse" id="navb">
+                <ul class="navbar-nav mr-auto">
+                    <!-- Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-center dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Cadastro
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="?pg=cadCli">Cliente</a>
+                            <a class="dropdown-item" href="#">Produto</a>
+                            <a class="dropdown-item" href="#">Categoria</a>
+                        </div>
+                    </li>
+                </ul>
+                <form method="get" name="f_busca">
+                    <section class="row m-0 p-0">
+                        <div class="input-group">
+                            <input id="txtNome" class="form-control m-0" type="text" name="txtNome" placeholder="Procurar">
+                            <div class="input-group-append">
+                                <button class="form-control btn btn-success m-0" type="submit" name="btnPesquisar">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </nav>
     </nav>
-    <section class="container">
+    <section class="container-fluid mt-5 pt-2">
         <?php
             if(isset($_GET['pg'])){
                 switch($_GET['pg']){

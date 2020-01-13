@@ -86,13 +86,13 @@ class Conexao {
 
     protected function execute($query) {
         if (!$resposta = $this->conn->exec($query)) {
+            return false;
             echo 'PDO::errorInfo(): <br />';
             echo 'erro SQL:' . $query;
             die();
         } else {
-            $LAST_ID = $this->conn->lastInsertId();
+            return true;
         }
-        return $LAST_ID;
     }
 
 }

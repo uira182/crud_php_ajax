@@ -2,7 +2,7 @@
 
 /************************************************************************/
 /*                                                                      */
-/*                   Função de Busca de Cliente                         */
+/*              Função de Busca de todos os Clientes                    */
 /*                                                                      */
 /************************************************************************/
 
@@ -43,8 +43,16 @@ function Busca() {
                 for (let cli of btn_del) {
                     cli.addEventListener("click", function() {
                         if (confirm("Deseja realmente deletar?")) {
-                            deletarCliente(cli.value);
+                            DeletarCliente(cli.value);
                         }
+                    });
+                }
+
+                var btn_edt = document.querySelectorAll("#btn_edt");
+
+                for (let cli of btn_edt) {
+                    cli.addEventListener("click", function() {
+                        BuscaCliente(cli.value);
                     });
                 }
 
@@ -59,17 +67,81 @@ function Busca() {
 
 /************************************************************************/
 /*                                                                      */
+/*                    Função de Busca de Cliente                        */
+/*                                                                      */
+/************************************************************************/
+
+function BuscaCliente(id) {
+    //console.log(id);
+    let dados = {};
+    dados.operacao = "AtualizaCli";
+    dados.id = id;
+
+    var dadosTexto = JSON.stringify(dados);
+
+    var xmlreq = CriaRequest();
+
+    // Iniciar uma requisição
+    xmlreq.open("POST", "assets/function/dashboard.php", true);
+    xmlreq.setRequestHeader('Content-Type', 'application/json');
+
+    // Atribui uma função para ser executada sempre que houver uma mudança de dado
+    xmlreq.onload = function() {
+
+        // Verifica se foi concluído com sucesso e a conexão fechada (readyState=4)
+        if (xmlreq.readyState == 4) {
+
+            // Verifica se o arquivo foi encontrado com sucesso
+            if (xmlreq.status == 200) {
+
+                let j = xmlreq.responseText;
+
+                j = JSON.parse(j);
+
+                //console.log(j);
+
+                $("#nome").attr("value", j.nome);
+                $("#email").attr("value", j.email);
+                $("#celular").attr("value", j.celular);
+                $("#telefone").attr("value", j.telefone);
+                $("#data_nascimento").attr("value", j.data_nascimento);
+                if (j.sexo == 0) {
+                    $("#sexoM").prop("checked", true);
+                    $("#sexoF").prop("checked", false);
+                } else {
+                    $("#sexoM").prop("checked", false);
+                    $("#sexoF").prop("checked", true);
+                }
+                $("#cep").attr("value", j.cep);
+                $("#endereco").attr("value", j.endereco);
+                $("#numero").attr("value", j.numero);
+                $("#bairro").attr("value", j.bairro);
+                $("#complemento").attr("value", j.complemento);
+                $("#estado").attr("value", j.estado);
+                $("#cidade").attr("value", j.cidade);
+                $("#idCli").attr("value", j.id);
+                $("#btnOperacao").attr("value", "EditarCli");
+                $("#btnOperacao").html("Atualizar");
+
+            } else {
+                result.innerHTML = "Erro: " + xmlreq.statusText;
+            }
+        }
+    };
+    xmlreq.send(dadosTexto);
+}
+
+/************************************************************************/
+/*                                                                      */
 /*                   Pagina de forulario de cadastro                    */
 /*                                                                      */
 /************************************************************************/
 
 function PrimeiraPagina(tela) {
     var dados = {};
-    if (!tela) {
-        dados.tela = "PrimeiraPagina";
-    } else {
-        dados.tela = tela;
-    }
+
+    dados.operacao = "PrimeiraPagina";
+
 
     var dadosTexto = JSON.stringify(dados);
 
@@ -119,11 +191,12 @@ function PrimeiraPagina(tela) {
 /*                                                                      */
 /************************************************************************/
 
-function cadastrarCliente() {
+function CadastrarCliente(e) {
 
     var dados = {};
 
     dados.operacao = formularioCadastro.btnAdd.value;
+    dados.id = formularioCadastro.idCli.value;
     dados.nome = formularioCadastro.nome.value;
     dados.email = formularioCadastro.email.value;
     dados.sexo = formularioCadastro.sexo.value;
@@ -142,7 +215,7 @@ function cadastrarCliente() {
 
     //console.log(dadosTexto);
 
-    var result = document.getElementById("Resultado");
+    var result = document.getElementById("msgCadCli");
     var xmlreq = CriaRequest();
 
     result.innerHTML = '<img src="assets/image/sistem/loading.gif" width="20%" />';
@@ -154,23 +227,23 @@ function cadastrarCliente() {
     // Atribui uma função para ser executada sempre que houver uma mudança de dado
     xmlreq.onload = function() {
 
-        formularioCadastro.reset(); // Atualiza o formulario deixando em branco.
-        $("#cep").prop("disabled", false);
-        $("#endereco").prop("disabled", true);
-        $("#numero").prop("disabled", true);
-        $("#bairro").prop("disabled", true);
-        $("#complemento").prop("disabled", true);
-        $("#cidade").prop("disabled", true);
-        $("#estado").prop("disabled", true);
-
-        Busca(); // Executa a função de busca de usuario e exibe logo em seguida.
-
         // Verifica se foi concluído com sucesso e a conexão fechada (readyState=4)
         if (xmlreq.readyState == 4) {
 
             // Verifica se o arquivo foi encontrado com sucesso
             if (xmlreq.status == 200) {
+
                 result.innerHTML = xmlreq.responseText;
+
+                $("#cep").prop("disabled", false);
+                $("#endereco").prop("disabled", true);
+                $("#numero").prop("disabled", true);
+                $("#bairro").prop("disabled", true);
+                $("#complemento").prop("disabled", true);
+                $("#cidade").prop("disabled", true);
+                $("#estado").prop("disabled", true);
+
+                Busca(); // Executa a função de busca de usuario e exibe logo em seguida.
             } else {
                 result.innerHTML = "Erro: " + xmlreq.statusText;
             }
@@ -186,7 +259,7 @@ function cadastrarCliente() {
 /*                                                                      */
 /************************************************************************/
 
-function deletarCliente(bd) {
+function DeletarCliente(bd) {
 
     let dados = {};
     dados.operacao = "DeletarCli";
@@ -194,7 +267,7 @@ function deletarCliente(bd) {
 
     var dadosTexto = JSON.stringify(dados);
 
-    var result = document.getElementById("Resultado");
+    var result = document.getElementById("msgCadCli");
     var xmlreq = CriaRequest();
 
     result.innerHTML = '<img src="assets/image/sistem/loading.gif" width="20%" />';
@@ -219,7 +292,6 @@ function deletarCliente(bd) {
     };
     xmlreq.send(dadosTexto);
 }
-
 
 /************************************************************************/
 /*                                                                      */
@@ -251,6 +323,7 @@ function CriaRequest() {
     }
 }
 
+
 /************************************************************************/
 /*                                                                      */
 /*                              COMANDOS                                */
@@ -281,7 +354,9 @@ var formularioCadastro = document.forms.formularioCadastro; // Captura o element
 
 formularioCadastro.addEventListener("submit", function(event) { // Quando executado o formulario de cadastro.
     event.preventDefault(); // Paraliza a execução e atualização do formulario.
-    cadastrarCliente(); // Executa a função de cadastro.
-});
+    CadastrarCliente();
+    PrimeiraPagina(); // Ao entrar seleciona a tela de cadastro.
+}); // Executa a função de cadastro.
+
 
 /***********************************************************************/

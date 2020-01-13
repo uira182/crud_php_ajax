@@ -24,14 +24,17 @@ if(isset($json->operacao)){
         case "DeletarCli":
             $cliente = new DeleteCliente($json->del);
         break;
-    }
-}elseif(isset($json->tela)){
-    switch($json->tela){
+        case "EditarCli":
+            $cliente = new UpdateCliente($json->id, $json->nome, $json->email, $json->sexo, $json->celular, $json->telefone, $json->cep, $json->endereco, $json->numero, $json->complemento, $json->bairro, $json->estado, $json->cidade, '0', $json->data_nascimento);
+        break;
+        case "AtualizaCli":
+            $cliente = new ListarClientes();
+            $cli = $cliente->oneCliente($json->id);
+            $cli = json_encode($cli);
+            echo $cli;
+        break;
         case "PrimeiraPagina":
             include_once("../pages/script/scriptCadCli.php");
-        break;
-        case "EditarCli":
-
         break;
     }
 }

@@ -1,4 +1,4 @@
-<h1>Cadastro de Cliente</h1>
+
 <section class="form-row">
     <section class="col-lg-6">
         <label for="nome">Nome</label>
@@ -9,6 +9,7 @@
         <input class="form-control" type="email" name="email" id="email" placeholder="email@email.com" required />
     </section>
 </section>
+
 
 <section class="form-row">
     <section class="col-md-6">
@@ -81,10 +82,10 @@
         <input class="form-control" type="text" name="cidade" id="cidade" placeholder="São Paulo, Rio de Janeiro..." required disabled />
     </section>
 </section>
-
+<input type="hidden" id="idCli" name="idCli" value="0" />
 <div class="form-row mt-2">
     <div class="col-sm-6 pt-2 pt-sm-0">
-        <button class="form-control btn btn-success" type="submit" name="btnAdd" value="CadastroCli">
+        <button class="form-control btn btn-success" id="btnOperacao" type="submit" name="btnAdd" value="CadastroCli">
                     Cadastrar
                 </button>
     </div>
